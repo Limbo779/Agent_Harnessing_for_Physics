@@ -1,0 +1,223 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage[a4paper, margin=2.5cm]{geometry}
+\usepackage{fontspec}
+\usepackage[english, bidi=basic, provide=*]{babel}
+\babelprovide[import, onchar=ids fonts]{english}
+\babelfont{rm}{Noto Sans}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{booktabs}
+\usepackage{abstract}
+\usepackage{hyperref}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+\title{\textbf{Exact Quantum Wave Function Derivation for a Classical Particle in Uniform Gravitational Field}}
+\author{\textbf{Consensus Synthesis of Agent Working Group}}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+We present a rigorous, first-principles derivation of the stationary spatial wave function $\psi(x,y)$ for a classical body of mass $m$ launched in a uniform gravitational field $g = 10\text{ m/s}^2$ with initial velocity magnitude $u$ at launch angle $\theta$. By mapping the initial kinematic components to spatial energy parameters and applying the two-dimensional Time-Independent Schrödinger Equation under an impenetrable ground potential boundary $V(y < 0) = \infty$, we decouple the motion into independent horizontal and vertical ordinary differential equations. The horizontal component yields a free plane-wave state characterized by the de Broglie wavenumber $k_x$, while the vertical component maps directly to Airy's canonical differential equation. Enforcing hard-wall Dirichlet boundary conditions at $y=0$ and square-integrability at infinity leads to exact normalization constants expressed via Airy function integrals. Finally, we analyze the correspondence limit linking discrete quantum vertical energy states to classical trajectory expectations.
+\end{abstract}
+
+\section{Introduction and Physical Model}
+
+In classical mechanics, a particle of mass $m$ launched from the origin $(x, y) = (0, 0)$ with initial velocity $u$ at an angle $\theta$ relative to the horizontal obeys the deterministic parabolic trajectory governed by Newton's second law:
+\begin{equation}
+x(t) = (u \cos\theta) t, \quad y(t) = (u \sin\theta) t - \frac{1}{2} g t^2
+\end{equation}
+where $g = 10\text{ m/s}^2$. To treat this classical body within the paradigm of non-relativistic quantum mechanics, we consider its stationary spatial quantum state governed by the two-dimensional Time-Independent Schrödinger Equation (TISE).
+
+The potential energy landscape $V(x,y)$ consists of a uniform linear gravitational gradient above an impenetrable hard-wall boundary at ground level ($y = 0$):
+\begin{equation}
+V(x, y) = \begin{cases} 
+mgy, & \text{for } y \ge 0 \\ 
+\infty, & \text{for } y < 0 
+\end{cases}
+\end{equation}
+
+The domain of spatial existence is $x \in (-\infty, \infty)$ and $y \in [0, \infty)$. The wave function must satisfy Dirichlet boundary conditions:
+\begin{equation}
+\psi(x, 0) = 0, \quad \lim_{y \to \infty} \psi(x, y) = 0
+\end{equation}
+
+---
+
+\section{Separation of Variables}
+
+The full 2D Hamiltonian operator $\hat{H}$ for $y \ge 0$ is written as:
+\begin{equation}
+\hat{H} = -\frac{\hbar^2}{2m} \left( \frac{\partial^2}{\partial x^2} + \frac{\partial^2}{\partial y^2} \right) + mgy
+\end{equation}
+
+The corresponding TISE $\hat{H}\psi(x,y) = E\psi(x,y)$ takes the explicit form:
+\begin{equation}
+-\frac{\hbar^2}{2m} \left( \frac{\partial^2 \psi}{\partial x^2} + \frac{\partial^2 \psi}{\partial y^2} \right) + mgy \psi(x, y) = E \psi(x, y)
+\end{equation}
+
+Substituting the separable product ansatz $\psi(x, y) = X(x) Y(y)$ and dividing throughout by $X(x) Y(y)$ isolates the single-variable spatial dependencies:
+\begin{equation}
+-\frac{\hbar^2}{2m} \frac{1}{X(x)} \frac{d^2 X(x)}{dx^2} = E - \left( -\frac{\hbar^2}{2m} \frac{1}{Y(y)} \frac{d^2 Y(y)}{dy^2} + mgy \right)
+\end{equation}
+
+Since the left-hand side depends solely on $x$ and the right-hand side depends solely on $y$, both sides must equal a constant horizontal energy eigenvalue $E_x$. Defining the vertical energy eigenvalue as $E_y = E - E_x$, we decouple the system into two ordinary differential equations:
+\begin{align}
+\frac{d^2 X(x)}{dx^2} + k_x^2 X(x) &= 0 \label{eq:ODE_x} \\
+-\frac{\hbar^2}{2m} \frac{d^2 Y(y)}{dy^2} + mgy Y(y) &= E_y Y(y) \label{eq:ODE_y}
+\end{align}
+where the horizontal wavevector is defined as $k_x \equiv \frac{\sqrt{2mE_x}}{\hbar}$.
+
+---
+
+\section{Horizontal Solution $X(x)$}
+
+Classically, the horizontal component of initial kinetic energy is given by:
+\begin{equation}
+E_x = \frac{1}{2} m (u \cos\theta)^2
+\end{equation}
+
+Substituting $E_x$ into $k_x$ yields the de Broglie wavenumber along $x$:
+\begin{equation}
+k_x = \frac{\sqrt{2m \left(\frac{1}{2} m u^2 \cos^2\theta\right)}}{\hbar} = \frac{m u \cos\theta}{\hbar}
+\end{equation}
+
+The general solution to Eq.~\eqref{eq:ODE_x} for forward motion ($p_x > 0$) is a complex exponential plane wave:
+\begin{equation}
+X(x) = C_x \exp\left( i \frac{m u \cos\theta}{\hbar} x \right)
+\end{equation}
+
+Depending on the spatial boundary choice, $C_x$ takes two canonical representations:
+\begin{enumerate}
+    \item \textbf{Box Normalization ($x \in [0, L]$):}
+    \begin{equation}
+    \int_{0}^{L} |X(x)|^2 dx = 1 \implies C_x = \frac{1}{\sqrt{L}}
+    \end{equation}
+    \item \textbf{Wavenumber Delta Normalization ($k_x$-space):}
+    \begin{equation}
+    \int_{-\infty}^{\infty} X_{k_x'}^*(x) X_{k_x}(x) dx = \delta(k_x - k_x') \implies C_x = \frac{1}{\sqrt{2\pi}}
+    \end{equation}
+\end{enumerate}
+
+---
+
+\section{Vertical Solution $Y(y)$ and Airy Transformation}
+
+Rearranging the vertical ODE Eq.~\eqref{eq:ODE_y} highlights the linear spatial potential:
+\begin{equation}
+-\frac{\hbar^2}{2m} \frac{d^2 Y(y)}{dy^2} + mg \left( y - \frac{E_y}{mg} \right) Y(y) = 0
+\end{equation}
+
+We introduce the characteristic gravitational length scale $l_g$ and dimensionless coordinate $z(y)$:
+\begin{equation}
+l_g = \left( \frac{\hbar^2}{2 m^2 g} \right)^{1/3}, \quad z(y) = \frac{y - \frac{E_y}{mg}}{l_g} = \left(\frac{2m^2 g}{\hbar^2}\right)^{1/3} y - \left( \frac{2 E_y^3}{m g^2 \hbar^2} \right)^{1/3}
+\end{equation}
+
+Transforming spatial derivatives using the chain rule $\frac{d^2 Y}{dy^2} = l_g^{-2} \frac{d^2 Y}{dz^2}$ reduces the differential equation to Airy's canonical equation:
+\begin{equation}
+\frac{d^2 Y(z)}{dz^2} - z Y(z) = 0
+\end{equation}
+
+The general solution is a linear combination of linearly independent Airy functions:
+\begin{equation}
+Y(z) = C_1 \text{Ai}(z) + C_2 \text{Bi}(z)
+\end{equation}
+
+As $y \to \infty$, $z(y) \to +\infty$. The asymptotic expansions for large positive $z$ are:
+\begin{equation}
+\text{Ai}(z) \sim \frac{\exp\left(-\frac{2}{3} z^{3/2}\right)}{2\sqrt{\pi} z^{1/4}} \to 0, \quad \text{Bi}(z) \sim \frac{\exp\left(\frac{2}{3} z^{3/2}\right)}{\sqrt{\pi} z^{1/4}} \to \infty
+\end{equation}
+
+Square-integrability mandates setting $C_2 = 0$, yielding the physical vertical wave function:
+\begin{equation}
+Y(y) = C_y \text{Ai}\left( \left(\frac{2m^2 g}{\hbar^2}\right)^{1/3} y + z_0 \right)
+\end{equation}
+where $z_0 \equiv z(0) = -\left( \frac{2 E_y^3}{m g^2 \hbar^2} \right)^{1/3}$.
+
+---
+
+\section{Hard-Wall Boundary Conditions and Energy Quantization}
+
+Enforcing the Dirichlet boundary condition at $y = 0$:
+\begin{equation}
+Y(0) = 0 \implies \text{Ai}(z_0) = 0
+\end{equation}
+
+Thus, $z_0$ must equal one of the discrete negative zeros $a_n$ of the Airy function ($\text{Ai}(a_n) = 0$ for $n = 1, 2, 3, \dots$):
+\begin{equation}
+-\left( \frac{2 E_{y,n}^3}{m g^2 \hbar^2} \right)^{1/3} = a_n = -|a_n|
+\end{equation}
+
+Solving for $E_{y,n}$ yields exact, discrete vertical energy eigenvalues:
+\begin{equation}
+E_{y,n} = \left( \frac{m g^2 \hbar^2}{2} \right)^{1/3} |a_n|
+\end{equation}
+
+In the classical launch context, the vertical energy expectation corresponds to $E_y = \frac{1}{2} m u^2 \sin^2\theta$. Substituting this parameter directly gives the semi-classical shift argument $z_0$:
+\begin{equation}
+z_0 = -\left( \frac{2 \left(\frac{1}{2}m u^2 \sin^2\theta\right)^3}{m g^2 \hbar^2} \right)^{1/3} = -\left( \frac{m u^3 \sin^3\theta}{2 g \hbar} \right)^{2/3}
+\end{equation}
+
+---
+
+\section{Normalization and Synthesis of Wave Function}
+
+The vertical normalization factor $C_y$ is determined via spatial integration:
+\begin{equation}
+\int_{0}^{\infty} |Y(y)|^2 dy = 1 \implies C_y^2 l_g \int_{z_0}^{\infty} \text{Ai}^2(z) dz = 1
+\end{equation}
+
+Using the indefinite integral identity for Airy functions:
+\begin{equation}
+\int \text{Ai}^2(z) dz = z \text{Ai}^2(z) - \text{Ai}'^2(z)
+\end{equation}
+
+Evaluating over the domain $[z_0, \infty)$ yields:
+\begin{equation}
+\int_{z_0}^{\infty} \text{Ai}^2(z) dz = \left[ 0 \right] - \left( z_0 \text{Ai}^2(z_0) - \text{Ai}'^2(z_0) \right) = \text{Ai}'^2(z_0) - z_0 \text{Ai}^2(z_0)
+\end{equation}
+
+Taking the square root gives the complete expression for $C_y$:
+\begin{equation}
+C_y = \frac{l_g^{-1/2}}{\sqrt{\text{Ai}'^2(z_0) - z_0 \text{Ai}^2(z_0)}} = \frac{\left( \frac{2 m^2 g}{\hbar^2} \right)^{1/6}}{\sqrt{\text{Ai}'^2(z_0) - z_0 \text{Ai}^2(z_0)}}
+\end{equation}
+
+When enforcing discrete boundary quantization ($z_0 = a_n$, $\text{Ai}(a_n) = 0$), $C_y$ simplifies to:
+\begin{equation}
+C_y = \frac{\left( \frac{2 m^2 g}{\hbar^2} \right)^{1/6}}{|\text{Ai}'(a_n)|}
+\end{equation}
+
+---
+
+\section{Final Analytical Equations}
+
+Combining horizontal and vertical components into $\psi(x,y) = X(x)Y(y)$ provides the complete, normalized wave function solutions.
+
+\subsection{General Parameterized Wave Function}
+In terms of fundamental physical launch parameters $(m, u, \theta, g, \hbar)$ and horizontal box normalization constant $C_x$:
+\begin{equation}
+\psi(x, y) = \mathcal{N} \exp\left( i \frac{m u \cos\theta}{\hbar} x \right) \text{Ai}\left( \left( \frac{2 m^2 g}{\hbar^2} \right)^{1/3} y - \left( \frac{m u^3 \sin^3\theta}{2 g \hbar} \right)^{2/3} \right)
+\end{equation}
+where the normalization prefactor $\mathcal{N}$ is explicitly given by:
+\begin{equation}
+\mathcal{N} = \frac{C_x \left( \frac{2 m^2 g}{\hbar^2} \right)^{1/6}}{\sqrt{\text{Ai}'^2\left(-\left( \frac{m u^3 \sin^3\theta}{2 g \hbar} \right)^{2/3}\right) + \left( \frac{m u^3 \sin^3\theta}{2 g \hbar} \right)^{2/3} \text{Ai}^2\left(-\left( \frac{m u^3 \sin^3\theta}{2 g \hbar} \right)^{2/3}\right)}}
+\end{equation}
+
+\subsection{Quantized Boundary Eigenstate Wave Function}
+For the $n$-th energy eigenstate where $E_{y,n} = \left(\frac{m g^2 \hbar^2}{2}\right)^{1/3} |a_n|$:
+\begin{equation}
+\psi_n(x, y) = \frac{C_x \left( \frac{2 m^2 g}{\hbar^2} \right)^{1/6}}{|\text{Ai}'(a_n)|} \exp\left( i \frac{m u \cos\theta}{\hbar} x \right) \text{Ai}\left( \left( \frac{2 m^2 g}{\hbar^2} \right)^{1/3} y + a_n \right)
+\end{equation}
+
+\section{Conclusion}
+
+We have derived the exact quantum mechanical spatial wave function for a classical particle launched in a uniform gravitational field. The spatial wave function transitions from a standard free-particle plane wave horizontally to an Airy function profile vertically. The boundary condition at ground level enforces vertical energy quantization, establishing a continuous spectrum along the horizontal translational axis and a discrete energy spectrum vertically.
+
+\end{document}
