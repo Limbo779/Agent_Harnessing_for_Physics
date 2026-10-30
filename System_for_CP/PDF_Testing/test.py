@@ -1,29 +1,8 @@
 from ollama import chat
 
-stream = chat(
-  model='deepseek-r1:latest',
-  messages=[{'role': 'user', 'content': 'What is 17 × 23?'}],
-  stream=True,
+response = chat(
+  model='aiden_lu/minicpm-v2.6:Q4_K_M',
+  messages=[{'role': 'user', 'content': 'Tell me about Canada.'}],
+  format='json'
 )
-
-in_thinking = False
-content = ''
-thinking = ''
-for chunk in stream:
-  if chunk.message.thinking:
-    if not in_thinking:
-      in_thinking = True
-      print('Thinking:\n', end='', flush=True)
-    print(chunk.message.thinking, end='', flush=True)
-    # accumulate the partial thinking 
-    thinking += chunk.message.thinking
-  elif chunk.message.content:
-    if in_thinking:
-      in_thinking = False
-      print('\n\nAnswer:\n', end='', flush=True)
-    print(chunk.message.content, end='', flush=True)
-    # accumulate the partial content
-    content += chunk.message.content
-
-  # append the accumulated fields to the messages for the next request
-  new_messages = [{ role: 'assistant', thinking: thinking, content: content }]
+print(response.message.content)
