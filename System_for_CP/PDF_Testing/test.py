@@ -1,19 +1,29 @@
-import pymupdf
-import pathlib
+from ollama import chat
 
-doc = pymupdf.open("/home/limbo/Desktop/Coding fun/Side (& fun) Projects/Project XKS8/Project XKS8/CLRS_GOLDEN_BIBLE.pdf")
-page = doc[569]
+stream = chat(
+  model='deepseek-r1:latest',
+  messages=[{'role': 'user', 'content': 'What is 17 × 23?'}],
+  stream=True,
+)
 
-svg_content = page.get_svg_image()
+in_thinking = False
+content = ''
+thinking = ''
+for chunk in stream:
+  if chunk.message.thinking:
+    if not in_thinking:
+      in_thinking = True
+      print('Thinking:\n', end='', flush=True)
+    print(chunk.message.thinking, end='', flush=True)
+    # accumulate the partial thinking 
+    thinking += chunk.message.thinking
+  elif chunk.message.content:
+    if in_thinking:
+      in_thinking = False
+      print('\n\nAnswer:\n', end='', flush=True)
+    print(chunk.message.content, end='', flush=True)
+    # accumulate the partial content
+    content += chunk.message.content
 
-with open("output.svg", "w", encoding="utf-8") as f:
-    f.write(svg_content)
-
-doc.close()
-
-
-
-#md_text = doc.to_markdown()
-#print(md_text)
-#
-#pathlib.Path("output.md").write_bytes(md_text.encode())
+  # append the accumulated fields to the messages for the next request
+  new_messages = [{ role: 'assistant', thinking: thinking, content: content }]
